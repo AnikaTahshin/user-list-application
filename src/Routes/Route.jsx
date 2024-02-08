@@ -10,7 +10,7 @@ import UserDetails from "../component/UserDetails";
        
       },  
       {
-        path: "details",
+        path: "details/:id",
         element: <UserDetails />, 
     } 
   ]);
