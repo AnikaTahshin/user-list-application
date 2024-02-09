@@ -45,6 +45,10 @@ const UserCard = () => {
   // add new user starts
   const addNewUser = (e) => {
     e.preventDefault();
+    if (!firstName) {
+     
+      alert.show('Name is required')
+    }
    
   };
   // add new user ends
@@ -58,12 +62,53 @@ const UserCard = () => {
   };
   //sort users by name ends
 
+  //sort users by email starts
+  const sortByEmail = () => {
+    const sortedData = [...apiData].sort((a, b) => a.email.localeCompare(b.email));
+    setFilterData(sortedData);
+  };
+  //sort users by email ends
+
+  //sort users by email starts
+  const sortByCompanyName = () => {
+    const sortedData = [...apiData].sort((a, b) => a.company?.name.localeCompare(b.company?.name));
+    setFilterData(sortedData);
+  };
+  //sort users by email ends
+
+
+  // search by first or last name starts
+  const handleSearch = () => {
+    if (inputSearch === "") {
+      setFilterData(apiData);
+    } else {
+      const filterBySearch = apiData.filter((item) =>
+        item.firstName.toLowerCase().includes(inputSearch.toLowerCase()) ||
+        item.lastName.toLowerCase().includes(inputSearch.toLowerCase())
+      );
+      setFilterData(filterBySearch);
+    }
+  };
+
+  useEffect(() => {
+
+    handleSearch()
+
+  }, [inputSearch])
+
+  // search by first or last name ends
 
   
   useEffect(() => {
     switch (sortBy) {
       case "Sort By Name":
         sortByName();
+        break;
+      case "Sort By Email":
+        sortByEmail();
+        break;
+      case "Sort By Company Name":
+        sortByCompanyName();
         break;
       default:
         setFilterData(apiData);
@@ -142,7 +187,7 @@ const UserCard = () => {
                             onClick={() => {
                               setSortBy("Sort By Company Name");
                               setSortModal(false);
-                              sortByCompanyName();
+                             
                             }}
                             type="button"
                             className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -155,13 +200,11 @@ const UserCard = () => {
                   )}
                 </div>
                 <div className="relative w-full">
-                  <input
-                    onClick={(e) => setInputSearch(e.target.value)}
-                    value={inputSearch}
-                    type="text"
+                  <input type="text"  onChange={(e) => setInputSearch(e.target.value)}
+                  placeholder="Search By Name, Email, Company Name..."
                     className=" p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                    placeholder="Search By Name, Email, Company Name..."
-                  />
+                    
+                    />
                 </div>
               </div>
             </form>
