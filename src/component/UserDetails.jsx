@@ -1,6 +1,7 @@
 import React from 'react'
 
-const UserDetails = () => {
+const UserDetails = ({state}) => {
+  
   return (
     <div>
         <h1>Hello users</h1>

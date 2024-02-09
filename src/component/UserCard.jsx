@@ -9,99 +9,67 @@ const UserCard = () => {
   const [handleAddUserModal, setHandleAddUserModal] = useState(false);
   const [inputSearch, setInputSearch] = useState("");
   const [filterData, setFilterData] = useState([]);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [companyName, setCompanyName] = useState("");
 
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [address, setAddress] = useState('')
-  const [companyName, setCompanyName] = useState('')
-
-  // sort by lists show starts
-  function handleSortBy() {
+  //toggle the sorted list modal starts
+  const handleSortBy = () => {
     setSortModal(!sortModal);
-  }
+  };
+  //toggle the sorted list modal ends
 
-  // sort by lists show ends
-
-  function addUserModalFun() {
+  // toggle add user modal starts
+  const addUserModalFun = () => {
     setHandleAddUserModal(!handleAddUserModal);
-  }
+  };
 
-  // get all users list starts
+  // toggle add user modal starts
+
+
+  //fetch user data starts
   useEffect(() => {
     fetch("https://dummyjson.com/users")
-      .then((res) => {
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
         setApiData(data?.users);
         setFilterData(data?.users);
       });
   }, []);
-  // get all users list ends
 
-  // add user starts
-  function addNewUser(e) {
-    e.preventDefault()
+  //fetch user data ends
 
+ 
+  // add new user starts
+  const addNewUser = (e) => {
+    e.preventDefault();
    
-  }
-  // add user ends
+  };
+  // add new user ends
 
-  // search by name starts
-  function searchByName() {
-    if (inputSearch === "") {
-      setFilterData(apiData);
-    } else {
-      const searchFilterByName = apiData.filter((item) =>
-        item.firstName.toLowerCase().includes(inputSearch.toLowerCase())
-      );
+ 
+
+  //sort users by name starts
+  const sortByName = () => {
+    const sortedData = [...apiData].sort((a, b) => a.firstName.localeCompare(b.firstName));
+    setFilterData(sortedData);
+  };
+  //sort users by name ends
+
+
+  
+  useEffect(() => {
+    switch (sortBy) {
+      case "Sort By Name":
+        sortByName();
+        break;
+      default:
+        setFilterData(apiData);
+        break;
     }
-  }
-  // search by name ends
-
-  // sort by name start
-  function sortByName() {
-    if (sortBy === "Sort By Name") {
-      const sortNameFilterData = apiData.slice().sort((a, b) => {
-        return a.firstName.localeCompare(b.firstName);
-      });
-
-      setFilterData(sortNameFilterData);
-    } else {
-      setFilterData(adminData);
-    }
-  }
-  // sort by name ends
-
-  // sort by name start
-  function sortByEmail() {
-    if (sortBy === "Sort By Email") {
-      const sortNameFilterData = apiData.slice().sort((a, b) => {
-        return a.email.localeCompare(b.email);
-      });
-
-      setFilterData(sortNameFilterData);
-    } else {
-      setFilterData(adminData);
-    }
-  }
-  // sort by name ends
-
-  // sort by company name starts
-
-  function sortByCompanyName() {
-    if (sortBy === "Sort By Email") {
-      const sortNameFilterData = apiData.slice().sort((a, b) => {
-        return a?.company?.name.localeCompare(b?.company?.name);
-      });
-
-      setFilterData(sortNameFilterData);
-    } else {
-      setFilterData(adminData);
-    }
-  }
-  // sort by company name ends
+  }, [sortBy]);
 
   return (
     <>
@@ -149,7 +117,6 @@ const UserCard = () => {
                             onClick={() => {
                               setSortBy("Sort By Name");
                               setSortModal(false);
-                              sortByName();
                             }}
                             type="button"
                             className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -162,7 +129,7 @@ const UserCard = () => {
                             onClick={() => {
                               setSortBy("Sort By Email");
                               setSortModal(false);
-                              sortByEmail();
+                             
                             }}
                             type="button"
                             className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"

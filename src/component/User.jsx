@@ -2,19 +2,23 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 
 const User = ({ item }) => {
-  let { id } = useParams();
+  // let { id } = useParams();
   return (
     <div className="flex flex-col justify-center items-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <img className="rounded-t-lg" src={item?.image} alt="" />
 
       <div className="p-5 text-center">
         <Link
-          to={`details/${id}`}>
+          to={{
+            pathname: `details/${item?.id}`,
+            state: { item: item },
+          }}
+        >
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             {item?.firstName} {item?.lastName}
           </h5>
         </Link>
-       
+
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
           {item?.email}
         </p>
