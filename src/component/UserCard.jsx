@@ -43,15 +43,19 @@ const UserCard = () => {
 
   // add new user starts
   const addNewUser = (e) => {
+
+    
     e.preventDefault();
     const newUser = {
-      id: apiData.length + 1,
+      // id: apiData.length + 1,
       firstName: firstName,
       lastName: lastName,
       email: email,
       address: address,
       company: { name: companyName },
     };
+
+    console.log('neeeeeeeeeeeeeew',newUser)
     setApiData((prev) => [newUser, ...prev]);
 
     console.log("updated data", apiData);
@@ -238,7 +242,7 @@ const UserCard = () => {
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       type="text"
-                      placeholder="Firts Name"
+                      placeholder="First Name"
                       className="mb-2 py-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     />
 
