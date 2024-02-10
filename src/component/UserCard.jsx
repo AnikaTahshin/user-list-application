@@ -14,6 +14,7 @@ const UserCard = () => {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [companyName, setCompanyName] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
 
   //toggle the sorted list modal starts
   const handleSortBy = () => {
@@ -28,7 +29,6 @@ const UserCard = () => {
 
   // toggle add user modal starts
 
-
   //fetch user data starts
   useEffect(() => {
     fetch("https://dummyjson.com/users")
@@ -41,64 +41,70 @@ const UserCard = () => {
 
   //fetch user data ends
 
- 
   // add new user starts
   const addNewUser = (e) => {
     e.preventDefault();
-    if (!firstName) {
-     
-      alert.show('Name is required')
-    }
-   
+    const newUser = {
+      id: apiData.length + 1,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      address: address,
+      company: { name: companyName },
+    };
+    setApiData((prev) => [newUser, ...prev]);
+
+    console.log("updated data", apiData);
   };
   // add new user ends
 
- 
-
   //sort users by name starts
   const sortByName = () => {
-    const sortedData = [...apiData].sort((a, b) => a.firstName.localeCompare(b.firstName));
+    const sortedData = [...apiData].sort((a, b) =>
+      a.firstName.localeCompare(b.firstName)
+    );
     setFilterData(sortedData);
   };
   //sort users by name ends
 
   //sort users by email starts
   const sortByEmail = () => {
-    const sortedData = [...apiData].sort((a, b) => a.email.localeCompare(b.email));
+    const sortedData = [...apiData].sort((a, b) =>
+      a.email.localeCompare(b.email)
+    );
     setFilterData(sortedData);
   };
   //sort users by email ends
 
   //sort users by email starts
   const sortByCompanyName = () => {
-    const sortedData = [...apiData].sort((a, b) => a.company?.name.localeCompare(b.company?.name));
+    const sortedData = [...apiData].sort((a, b) =>
+      a.company?.name.localeCompare(b.company?.name)
+    );
     setFilterData(sortedData);
   };
   //sort users by email ends
-
 
   // search by first or last name starts
   const handleSearch = () => {
     if (inputSearch === "") {
       setFilterData(apiData);
     } else {
-      const filterBySearch = apiData.filter((item) =>
-        item.firstName.toLowerCase().includes(inputSearch.toLowerCase()) ||
-        item.lastName.toLowerCase().includes(inputSearch.toLowerCase())
+      const filterBySearch = apiData.filter(
+        (item) =>
+          item.firstName.toLowerCase().includes(inputSearch.toLowerCase()) ||
+          item.lastName.toLowerCase().includes(inputSearch.toLowerCase())
       );
       setFilterData(filterBySearch);
     }
   };
 
   useEffect(() => {
-
-    handleSearch()
-
-  }, [inputSearch])
+    handleSearch();
+  }, [inputSearch]);
 
   // search by first or last name ends
 
-  
   useEffect(() => {
     switch (sortBy) {
       case "Sort By Name":
@@ -119,8 +125,8 @@ const UserCard = () => {
   return (
     <>
       <div className="flex flex-col justify-center items-center">
-        <div className="flex flex-row justify-between items-center">
-          <div className="w-[300px] md:w-[600px] my-10">
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="w-[200px] md:w-[600px] my-10">
             <form>
               <div className="flex">
                 <div className="flex flex-col justify-center items-center">
@@ -128,7 +134,7 @@ const UserCard = () => {
                     onClick={() => handleSortBy()}
                     id="dropdown-button"
                     data-dropdown-toggle="dropdown"
-                    className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                    className="md:w-30 text-[12px] flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
                     type="button"
                   >
                     {sortBy}
@@ -151,7 +157,7 @@ const UserCard = () => {
                   {sortModal && (
                     <div
                       id="dropdown"
-                      className=" bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+                      className=" bg-white divide-y divide-gray-100 rounded-lg shadow w-50 dark:bg-gray-700"
                     >
                       <ul
                         className="py-2 text-sm text-gray-700 dark:text-gray-200"
@@ -174,7 +180,6 @@ const UserCard = () => {
                             onClick={() => {
                               setSortBy("Sort By Email");
                               setSortModal(false);
-                             
                             }}
                             type="button"
                             className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -187,7 +192,6 @@ const UserCard = () => {
                             onClick={() => {
                               setSortBy("Sort By Company Name");
                               setSortModal(false);
-                             
                             }}
                             type="button"
                             className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -199,29 +203,30 @@ const UserCard = () => {
                     </div>
                   )}
                 </div>
-                <div className="relative w-full">
-                  <input type="text"  onChange={(e) => setInputSearch(e.target.value)}
-                  placeholder="Search By Name, Email, Company Name..."
+                <div className="relative w-full md:w-[400px]">
+                  <input
+                    type="text"
+                    onChange={(e) => setInputSearch(e.target.value)}
+                    placeholder="Search By Name, Email, Company Name..."
                     className=" p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                    
-                    />
+                  />
                 </div>
               </div>
             </form>
           </div>
-
           <button
-            onClick={() => addUserModalFun()}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-          >
-            Add User
-          </button>
-        </div>
+          onClick={() => addUserModalFun()}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+        >
+          Add User
+        </button>
 
+        </div>
+        
         {handleAddUserModal && (
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
-            <div className="p-8 border w-96 shadow-lg rounded-md bg-white">
-              <div className="text-center">
+            <div className="p-8 border w-[300px] md:w-[500px] shadow-lg rounded-md bg-white">
+              <div className="text-center ">
                 <h3 className="text-2xl font-bold text-gray-900">
                   Add New User
                 </h3>
@@ -275,9 +280,35 @@ const UserCard = () => {
                       placeholder="Company Name"
                       className="mb-2 py-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     />
+
+                    {selectedImage && (
+                      <div>
+                        <img
+                          alt="not found"
+                          width={"100px"}
+                          src={URL.createObjectURL(selectedImage)}
+                        />
+                        <br />
+                        <button onClick={() => setSelectedImage(null)}>
+                          Remove
+                        </button>
+                      </div>
+                    )}
+                    <input
+                      type="file"
+                      name="myImage"
+                      onChange={(event) => {
+                        console.log(event.target.files[0]);
+                        setSelectedImage(event.target.files[0]);
+                      }}
+                    />
                   </div>
                   <div className="flex flex-row justify-around">
-                    <button type="submit" className="p-2 bg-green-400">
+                    <button
+                      type="submit"
+                      onClick={() => setHandleAddUserModal(!handleAddUserModal)}
+                      className="p-2 bg-green-400"
+                    >
                       Submit
                     </button>
                     <button

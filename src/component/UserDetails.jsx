@@ -1,12 +1,15 @@
-import React from 'react'
+import React from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 
-const UserDetails = ({state}) => {
-  
+const UserDetails = () => {
+
+
   return (
     <div>
-        <h1>Hello users</h1>
+      <h1>User Details</h1>
+      
     </div>
-  )
-}
+  );
+};
 
-export default UserDetails
+export default UserDetails;

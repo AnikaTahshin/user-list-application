@@ -1,8 +1,8 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const User = ({ item }) => {
-  // let { id } = useParams();
+ 
   return (
     <div className="flex flex-col justify-center items-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <img className="rounded-t-lg" src={item?.image} alt="" />
@@ -11,7 +11,7 @@ const User = ({ item }) => {
         <Link
           to={{
             pathname: `details/${item?.id}`,
-            state: { item: item },
+            state: {item: item },
           }}
         >
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
