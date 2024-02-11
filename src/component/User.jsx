@@ -5,7 +5,7 @@ const User = ({ item }) => {
  
   return (
     <div className="flex flex-col justify-center items-center bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <img className="rounded-t-lg" src={item?.image} alt="" />
+      <img className="rounded-t-lg" height={250} width={250} src={item?.image} alt="" />
 
       <div className="p-5 text-center">
         <Link

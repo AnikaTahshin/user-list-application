@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import User from "./User";
 import { Link } from "react-router-dom";
+import { createToast } from "../utils/SweetAlertToast";
 
 const UserCard = () => {
   const [apiData, setApiData] = useState([]);
@@ -46,19 +47,44 @@ const UserCard = () => {
 
     
     e.preventDefault();
-    const newUser = {
-      id:apiData.length + 1,
-      firstName: firstName,
-      lastName: lastName,
-      image:URL.createObjectURL(selectedImage),
-      email: email,
-      address: {address:address,city:''},
-      company: { name: companyName },
-    };
 
-    console.log('first',newUser)
-    setFilterData((prev) => [...prev, newUser])
-    setHandleAddUserModal(false)
+    if (!firstName) {
+      createToast('FirstName is Required')
+    } 
+    else if (!lastName) {
+      createToast('LastName is Required')
+    } 
+    else if (!email) {
+      createToast('Email is Required')
+    }
+    else if (!address) {
+      createToast('Address is Required')
+    }
+    else if (!companyName) {
+      createToast('Compnany Name is Required')
+    }
+    else if (!selectedImage) {
+      createToast('Image is Required')
+    }
+    
+    else {
+      const newUser = {
+        id:apiData.length + 1,
+        firstName: firstName,
+        lastName: lastName,
+        image:URL.createObjectURL(selectedImage),
+        email: email,
+        address: {address:address,city:''},
+        company: { name: companyName },
+      };
+  
+   
+      setFilterData((prev) => [...prev, newUser])
+      createToast('User is Added','success')
+      setHandleAddUserModal(false)
+    }
+    
+    
    
   };
 
@@ -116,13 +142,13 @@ const UserCard = () => {
 
   useEffect(() => {
     switch (sortBy) {
-      case "Sort By Name":
+      case "By Name":
         sortByName();
         break;
-      case "Sort By Email":
+      case "By Email":
         sortByEmail();
         break;
-      case "Sort By Company Name":
+      case "By Company Name":
         sortByCompanyName();
         break;
       default:
@@ -175,7 +201,7 @@ const UserCard = () => {
                         <Link>
                           <button
                             onClick={() => {
-                              setSortBy("Sort By Name");
+                              setSortBy("By Name");
                               setSortModal(false);
                             }}
                             type="button"
@@ -187,7 +213,7 @@ const UserCard = () => {
                         <Link>
                           <button
                             onClick={() => {
-                              setSortBy("Sort By Email");
+                              setSortBy("By Email");
                               setSortModal(false);
                             }}
                             type="button"
@@ -199,7 +225,7 @@ const UserCard = () => {
                         <Link>
                           <button
                             onClick={() => {
-                              setSortBy("Sort By Company Name");
+                              setSortBy("By Company Name");
                               setSortModal(false);
                             }}
                             type="button"
@@ -333,7 +359,7 @@ const UserCard = () => {
             </div>
           </div>
         )}
-        <div className="grid  grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 grid-flow-row w-screen h-screen mx-6">
+        <div className=" grid  grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 px-6  grid-flow-row w-screen h-screen">
           {filterData.map((item) => (
             <User key={item?.id} item={item} />
           ))}
