@@ -181,7 +181,7 @@ const UserCard = () => {
                   {sortModal && (
                     <div
                       id="dropdown"
-                      className=" bg-white absolute top-20 md:left-[200px] divide-y divide-gray-100 rounded-lg shadow w-50 dark:bg-gray-700"
+                      className=" bg-white absolute top-40 md:top-20 md:left-[200px] divide-y divide-gray-100 rounded-lg shadow w-50 dark:bg-gray-700"
                     >
                       <ul
                         className="py-2 text-sm text-gray-700 dark:text-gray-200"
