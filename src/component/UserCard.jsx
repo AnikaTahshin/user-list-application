@@ -47,19 +47,23 @@ const UserCard = () => {
     
     e.preventDefault();
     const newUser = {
-      // id: apiData.length + 1,
+      id:apiData.length + 1,
       firstName: firstName,
       lastName: lastName,
+      image:URL.createObjectURL(selectedImage),
       email: email,
-      address: address,
+      address: {address:address,city:''},
       company: { name: companyName },
     };
 
-    console.log('neeeeeeeeeeeeeew',newUser)
-    setApiData((prev) => [newUser, ...prev]);
-
-    console.log("updated data", apiData);
+    console.log('first',newUser)
+    setFilterData((prev) => [...prev, newUser])
+    setHandleAddUserModal(false)
+   
   };
+
+
+  console.log('new userrr',filterData)
   // add new user ends
 
   //sort users by name starts
@@ -96,8 +100,9 @@ const UserCard = () => {
     } else {
       const filterBySearch = apiData.filter(
         (item) =>
-          item.firstName.toLowerCase().includes(inputSearch.toLowerCase()) ||
-          item.lastName.toLowerCase().includes(inputSearch.toLowerCase())
+          item.firstName.toLowerCase().includes(inputSearch.toLowerCase()) 
+          // ||
+          // item.lastName.toLowerCase().includes(inputSearch.toLowerCase())
       );
       setFilterData(filterBySearch);
     }
@@ -161,7 +166,7 @@ const UserCard = () => {
                   {sortModal && (
                     <div
                       id="dropdown"
-                      className=" bg-white divide-y divide-gray-100 rounded-lg shadow w-50 dark:bg-gray-700"
+                      className=" bg-white absolute left-[200px] divide-y divide-gray-100 rounded-lg shadow w-50 dark:bg-gray-700"
                     >
                       <ul
                         className="py-2 text-sm text-gray-700 dark:text-gray-200"
@@ -310,14 +315,14 @@ const UserCard = () => {
                   <div className="flex flex-row justify-around">
                     <button
                       type="submit"
-                      onClick={() => setHandleAddUserModal(!handleAddUserModal)}
+                      // onClick={() => setHandleAddUserModal(!handleAddUserModal)}
                       className="p-2 bg-green-400"
                     >
                       Submit
                     </button>
                     <button
-                      onClick={() => setHandleAddUserModal(!handleAddUserModal)}
-                      type="submit"
+                      onClick={() => setHandleAddUserModal(false)}
+                      // type="submit"
                       className="p-2 bg-green-400"
                     >
                       Close
